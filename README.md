@@ -4,6 +4,12 @@
 
 A collection of useful code for working with data. `utencilios` is the spanish word for utensils.
 
+## Install from github
+
+```
+$ python -m pip install git+https://github.com/ayoskovich/utencilios@main
+```
+
 ## Dev Tips
 
 First create your venv using `requirements.txt`, then activate it and install this package with:
