@@ -1,14 +1,16 @@
 import random
 import pandas as pd
 import numpy as np
-
+from unittest import mock
 from utencilios import (
     shout,
     squish,
     filter_random,
     collapse_multiindex,
     DataFrameDiffer,
+    pathsafenow,
 )
+import utencilios
 
 
 def test_shout(capsys):
@@ -106,3 +108,14 @@ def test_dataframe_differ():
     assert diffy.matching_columns == {"a", "b"}
     assert diffy.missing_columns == set()
     assert diffy.new_columns == {"c"}
+
+
+def test_pathsafenow():
+    from datetime import datetime
+
+    with mock.patch("utencilios.general.datetime") as mock_datetime:
+        # Pretend that datetime.now() will return a static date
+        mock_datetime.now.return_value = datetime(2024, 8, 9, 11, 30, 5)
+        actual_now = pathsafenow()
+        expected_now = "2024-08-09_11-30-05"
+        assert actual_now == expected_now

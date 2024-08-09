@@ -8,4 +8,5 @@ from .general import (
     squish,
     collapse_multiindex,
     DataFrameDiffer,
+    pathsafenow,
 )

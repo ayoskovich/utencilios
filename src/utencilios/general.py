@@ -3,6 +3,7 @@ import random
 from typing import Union, Callable
 from collections import defaultdict
 import pandas as pd
+from datetime import datetime
 
 
 def shout(df: pd.DataFrame, msg: str = None) -> pd.DataFrame:
@@ -14,16 +15,15 @@ def shout(df: pd.DataFrame, msg: str = None) -> pd.DataFrame:
 
     :returns: The original dataframe
 
-    Example
-    -------
-    .. ipython:: python
+    Example:
+        .. ipython:: python
 
-        output = (
-            pd.DataFrame([{'a': 10}, {'a': 15}, {'a': 20}])
-            .pipe(ut.shout, 'Starting pipeline')
-            .loc[lambda x: x['a'] >= 15]
-            .pipe(ut.shout, 'After filtering')
-        ); output
+            output = (
+                pd.DataFrame([{'a': 10}, {'a': 15}, {'a': 20}])
+                .pipe(ut.shout, 'Starting pipeline')
+                .loc[lambda x: x['a'] >= 15]
+                .pipe(ut.shout, 'After filtering')
+            ); output
     """
     msg = f"{df.shape}: {msg or ''}"
     print(msg)
@@ -61,20 +61,19 @@ def squish(
     :param col_sep: The thing to split the columns on
     :param agg_func: The function to use to aggregate the values. Defaults to a simple list
 
-    Example
-    -------
-    .. ipython:: python
+    Example:
+        .. ipython:: python
 
-        df = pd.DataFrame(
-            columns=['index_var', 'a_1', 'a_2', 'b_1', 'b_2', 'b_3'],
-            data=[
-                (1, 2, 3, 4, 5, 6),
-                (10, 20, 30, 40, 50, 60)
-            ]
-        )
-        df
+            df = pd.DataFrame(
+                columns=['index_var', 'a_1', 'a_2', 'b_1', 'b_2', 'b_3'],
+                data=[
+                    (1, 2, 3, 4, 5, 6),
+                    (10, 20, 30, 40, 50, 60)
+                ]
+            )
+            df
 
-        df.pipe(squish, 'index_var')
+            df.pipe(squish, 'index_var')
     """
     if not isinstance(index_var, list):
         index_var = [index_var]
@@ -115,8 +114,7 @@ def create_column(
     :param args: Column names to pass into ``func``
 
 
-    Examples
-
+    Example:
         .. ipython:: python
 
             df = pd.DataFrame({
@@ -308,3 +306,20 @@ def create_diff(df_a: pd.DataFrame, df_b: pd.DataFrame) -> pd.DataFrame:
     simple "added" / "deleted" / "modified"
     """
     pass
+
+
+def pathsafenow() -> str:
+    """Convert the current datetime into a safe string to be used as a directory name, useful
+    when stashing data.
+
+    Returns:
+        str: A safe directory name string representing the current datetime.
+
+    Example:
+        .. ipython:: python
+
+            ut.pathsafenow()
+    """
+    now = datetime.now()
+    formatted_datetime = now.strftime("%Y-%m-%d_%H-%M-%S")
+    return formatted_datetime
